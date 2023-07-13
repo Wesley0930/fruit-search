@@ -4,7 +4,7 @@ const fruit = ['Apple', 'Apricot', 'Avocado 🥑', 'Banana', 'Bilberry', 'Blackb
 
 function search(str) {
 	let results = [];
-	// TODO
+	
 	for (f of fruit) {
 		if (str !== '' && f.toLowerCase().includes(str.toLowerCase())){ // set both to lowercase
 			results.push(f)
@@ -14,7 +14,7 @@ function search(str) {
 }
 
 function searchHandler(e) {
-	// TODO
+	
 	while (suggestions.children.length !== 0) { // reset suggestions before displaying new ones
 		suggestions.firstElementChild.remove()
 	} 
@@ -22,24 +22,24 @@ function searchHandler(e) {
 }
 
 function showSuggestions(results, inputVal) {
-	// TODO
-	if (results){ 
+	if (results) { // suggestions are not empty and make sure it's clicking list item
+		//suggestions.classList.toggle('has-suggestions');
 		for (r of results){
 			let newSuggestion = document.createElement('li') // append elements into dropdown list
 			newSuggestion.innerText = r; 
-			newSuggestion.addEventListener('mouseover', () => {
-				newSuggestion.style.backgroundColor = 'tomato';
-			})
-			newSuggestion.addEventListener('mouseout', () => {
-				newSuggestion.style.backgroundColor = '';
-			})
+			// newSuggestion.addEventListener('mouseover', () => {
+			// 	newSuggestion.style.backgroundColor = 'tomato';
+			// })
+			// newSuggestion.addEventListener('mouseout', () => {
+			// 	newSuggestion.style.backgroundColor = '';
+			// }) // done with hover in css
+
 			suggestions.appendChild(newSuggestion);
 		}
 	}
 }
 
 function useSuggestion(e) {
-	// TODO
 	input.value = e.target.innerText;
 	while (suggestions.children.length !== 0) { // reset suggestions before displaying new ones
 		suggestions.firstElementChild.remove()
