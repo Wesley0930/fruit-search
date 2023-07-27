@@ -14,7 +14,6 @@ function search(str) {
 }
 
 function searchHandler(e) {
-	
 	while (suggestions.children.length !== 0) { // reset suggestions before displaying new ones
 		suggestions.firstElementChild.remove()
 	} 
@@ -23,17 +22,9 @@ function searchHandler(e) {
 
 function showSuggestions(results, inputVal) {
 	if (results) { // suggestions are not empty and make sure it's clicking list item
-		//suggestions.classList.toggle('has-suggestions');
-		for (r of results){
+		for (res of results){
 			let newSuggestion = document.createElement('li') // append elements into dropdown list
-			newSuggestion.innerText = r; 
-			// newSuggestion.addEventListener('mouseover', () => {
-			// 	newSuggestion.style.backgroundColor = 'tomato';
-			// })
-			// newSuggestion.addEventListener('mouseout', () => {
-			// 	newSuggestion.style.backgroundColor = '';
-			// }) // done with hover in css
-
+			newSuggestion.innerText = res;
 			suggestions.appendChild(newSuggestion);
 		}
 	}
@@ -48,3 +39,18 @@ function useSuggestion(e) {
 
 input.addEventListener('keyup', searchHandler);
 suggestions.addEventListener('click', useSuggestion);
+// break apart into 3 substrings, before match, match, and after match
+suggestions.addEventListener('mouseover', (event) => {
+	let e = event.target;
+	const inputVal = input.value.toLowerCase();
+	let highlight = e.innerText.toLowerCase().indexOf(inputVal);
+	let boldText = e.innerText.substring(0, highlight) + // before
+	`<span class="bold-text">${e.innerText.substring(highlight, highlight + inputVal.length)}</span>` + // match
+	e.innerText.substring(highlight + inputVal.length) // rest of string
+	e.innerHTML = boldText;
+})
+suggestions.addEventListener('mouseout', (event) => {
+	let e = event.target;
+	e.innerHTML = e.innerText;
+
+})
