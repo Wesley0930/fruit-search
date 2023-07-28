@@ -4,20 +4,21 @@ const fruit = ['Apple', 'Apricot', 'Avocado 🥑', 'Banana', 'Bilberry', 'Blackb
 
 function search(str) {
 	let results = [];
-	
+	let lowerInput = str.toLowerCase();
 	for (f of fruit) {
-		if (str !== '' && f.toLowerCase().includes(str.toLowerCase())){ // set both to lowercase
+		if (f.toLowerCase().includes(lowerInput)){ // set both to lowercase
 			results.push(f)
 		}
 	}
+	// use filter method
 	return results;
 }
-
+	
 function searchHandler(e) {
-	while (suggestions.children.length !== 0) { // reset suggestions before displaying new ones
-		suggestions.firstElementChild.remove()
-	} 
-	showSuggestions(search(input.value), input.value);
+	resetSuggestions();
+	if (input.value) {
+		showSuggestions(search(input.value), input.value);
+	}
 }
 
 function showSuggestions(results, inputVal) {
@@ -32,25 +33,30 @@ function showSuggestions(results, inputVal) {
 
 function useSuggestion(e) {
 	input.value = e.target.innerText;
+	resetSuggestions()
+}
+/* reset function */
+function resetSuggestions(){
 	while (suggestions.children.length !== 0) { // reset suggestions before displaying new ones
 		suggestions.firstElementChild.remove()
 	} 
 }
 
-input.addEventListener('keyup', searchHandler);
-suggestions.addEventListener('click', useSuggestion);
-// break apart into 3 substrings, before match, match, and after match
-suggestions.addEventListener('mouseover', (event) => {
-	let e = event.target;
+function mouseoverHandler(event){
+	// break apart into 3 substrings, before match, match, and after match
+	e = event.target;
 	const inputVal = input.value.toLowerCase();
 	let highlight = e.innerText.toLowerCase().indexOf(inputVal);
 	let boldText = e.innerText.substring(0, highlight) + // before
-	`<span class="bold-text">${e.innerText.substring(highlight, highlight + inputVal.length)}</span>` + // match
+	`<span class="bold-text">${e.innerText.substring(highlight, highlight + inputVal.length)}</span>` + // match 
 	e.innerText.substring(highlight + inputVal.length) // rest of string
 	e.innerHTML = boldText;
-})
+}
+
+input.addEventListener('keyup', searchHandler);
+suggestions.addEventListener('click', useSuggestion);
+suggestions.addEventListener('mouseover', mouseoverHandler);
 suggestions.addEventListener('mouseout', (event) => {
 	let e = event.target;
 	e.innerHTML = e.innerText;
-
 })
